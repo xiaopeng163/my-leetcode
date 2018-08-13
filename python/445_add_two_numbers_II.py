@@ -25,4 +25,63 @@ class Solution:
         :type l2: ListNode
         :rtype: ListNode
         """
-        
+        l1_list = []
+        l2_list = []
+        while l1:
+            l1_list.append(l1.val)
+            l1 = l1.next
+        while l2:
+            l2_list.append(l2.val)
+            l2 = l2.next
+        pre = None
+        cur = None
+        carry = 0
+        while l1_list or l2_list:
+            tmp = 0
+            if l1_list:
+                tmp += l1_list.pop()
+            if l2_list:
+                tmp += l2_list.pop()
+            if carry:
+                tmp += carry
+                carry = 0
+            carry = tmp // 10
+            tmp = tmp % 10
+            head = ListNode(tmp)
+            
+            if not cur:
+                cur = head
+            else:
+                head.next = cur
+                cur = head
+        if carry:
+            head = ListNode(carry)
+            head.next = cur
+            cur = head
+        return cur
+
+
+if __name__ == "__main__":
+
+
+    tmp1 = ListNode(7)
+    tmp2 = ListNode(2)
+    tmp3 = ListNode(4)
+    tmp4 = ListNode(3)
+
+    tmp1.next = tmp2
+    tmp2.next = tmp3
+    tmp3.next = tmp4
+
+    a = ListNode(5)
+    b = ListNode(6)
+    c = ListNode(4)
+    a.next = b
+    b.next = c
+
+    s = Solution()
+    res = s.addTwoNumbers(tmp1, a)
+
+    while res:
+        print(res.val)
+        res = res.next
